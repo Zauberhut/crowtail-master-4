@@ -1,5 +1,5 @@
 function solveC () {
-    list[momentaneAufgabe] = true
+    gotsolution = true
 }
 // Checkt, ob solveX "gotsolution" auf wahr setzt
 // Setzt den entsprechenden Listenwert auf wahr
@@ -9,10 +9,12 @@ function checksolution (Aufgabe: number) {
     solve(Aufgabe)
     if (gotsolution == true) {
         list[momentaneAufgabe] = true
-        music.playMelody("C E G C5 C5 C5 - - ", 500)
         basic.showIcon(IconNames.Yes)
+        music.playMelody("C E G C5 C5 C5 - - ", 500)
+        basic.pause(1000)
+        basic.clearScreen()
     } else {
-        for (let index = 0; index < 4; index++) {
+        for (let index = 0; index < 3; index++) {
             basic.showIcon(IconNames.No)
             basic.pause(20)
             basic.clearScreen()
@@ -22,10 +24,10 @@ function checksolution (Aufgabe: number) {
     AnzeigeSpielstand()
 }
 function solveJ () {
-    list[5] = true
+	
 }
 function solveE () {
-    list[4] = true
+    gotsolution = true
 }
 input.onButtonPressed(Button.A, function () {
     if (solvingnow == false) {
@@ -33,7 +35,7 @@ input.onButtonPressed(Button.A, function () {
             momentaneAufgabe = 0
             basic.showString("A")
         } else if (momentaneAufgabe == 0) {
-            momentaneAufgabe += 1
+            momentaneAufgabe = 1
             basic.showString("B")
         } else if (momentaneAufgabe == 1) {
             momentaneAufgabe += 1
@@ -60,7 +62,7 @@ input.onButtonPressed(Button.A, function () {
             momentaneAufgabe += 1
             basic.showString("J")
         } else {
-            momentaneAufgabe += 1
+            momentaneAufgabe = 0
         }
     }
 })
@@ -68,10 +70,10 @@ function solveH () {
 	
 }
 function solveI () {
-    list[6] = true
+	
 }
 function solveD () {
-    list[3] = true
+    gotsolution = true
 }
 function solveG () {
 	
@@ -84,6 +86,8 @@ function hacked () {
         }
     }
     if (ZahleingabeCounter == AnzahlAufgaben) {
+        radio.setGroup(1)
+        radio.sendNumber(0)
         basic.showIcon(IconNames.Heart)
     }
 }
@@ -126,7 +130,7 @@ function solve (aufgabennummer: number) {
     AnzeigeSpielstand()
 }
 function solveF () {
-	
+    gotsolution = true
 }
 input.onButtonPressed(Button.B, function () {
     if (solvingnow == false) {
@@ -151,8 +155,6 @@ function solveA () {
 }
 function AnzeigeSpielstand () {
     AnzeigeSpielstandAktiv = true
-    music.setBuiltInSpeakerEnabled(true)
-    music.setVolume(255)
     basic.clearScreen()
     if (list[0] == true) {
         music.playTone(262, music.beat(BeatFraction.Eighth))
@@ -265,13 +267,12 @@ function AnzeigeSpielstand () {
         }
     }
     soundExpression.spring.playUntilDone()
-    AnzeigeSpielstandAktiv = false
-    music.setBuiltInSpeakerEnabled(false)
     solvingnow = false
+    AnzeigeSpielstandAktiv = false
     hacked()
 }
 function solveB () {
-	
+    gotsolution = true
 }
 function SOS () {
     basic.clearScreen()
@@ -321,6 +322,5 @@ for (let momentaneAufgabe = 0; momentaneAufgabe <= AnzahlAufgaben; momentaneAufg
 }
 solvingnow = false
 let gewonnen = false
-// unklar für was die Variable Index steht.
-momentaneAufgabe = 0
+momentaneAufgabe = AnzahlAufgaben + 1
 AnzeigeSpielstandAktiv = false
