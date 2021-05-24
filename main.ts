@@ -314,7 +314,7 @@ let momentaneAufgabe = 0
 let solvingnow = false
 let list: boolean[] = []
 let AnzahlAufgaben = 0
-AnzahlAufgaben = 2
+AnzahlAufgaben = 4
 basic.showIcon(IconNames.Angry)
 for (let momentaneAufgabe = 0; momentaneAufgabe <= AnzahlAufgaben; momentaneAufgabe++) {
     list.push(false)
