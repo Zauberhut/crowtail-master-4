@@ -24,59 +24,63 @@ function checksolution (Aufgabe: number) {
     AnzeigeSpielstand()
 }
 function solveJ () {
-	
+    gotsolution = true
 }
 function solveE () {
     gotsolution = true
 }
 input.onButtonPressed(Button.A, function () {
     if (solvingnow == false) {
-        if (momentaneAufgabe > AnzahlAufgaben) {
-            momentaneAufgabe = 0
-            basic.showString("A")
-        } else if (momentaneAufgabe == 0) {
-            momentaneAufgabe = 1
-            basic.showString("B")
-        } else if (momentaneAufgabe == 1) {
-            momentaneAufgabe += 1
-            basic.showString("C")
-        } else if (momentaneAufgabe == 2) {
-            momentaneAufgabe += 1
-            basic.showString("D")
-        } else if (momentaneAufgabe == 3) {
-            momentaneAufgabe += 1
-            basic.showString("E")
-        } else if (momentaneAufgabe == 4) {
-            momentaneAufgabe += 1
-            basic.showString("F")
-        } else if (momentaneAufgabe == 5) {
-            momentaneAufgabe += 1
-            basic.showString("G")
-        } else if (momentaneAufgabe == 6) {
-            momentaneAufgabe += 1
-            basic.showString("H")
-        } else if (momentaneAufgabe == 7) {
-            momentaneAufgabe += 1
-            basic.showString("I")
-        } else if (momentaneAufgabe == 8) {
-            momentaneAufgabe += 1
-            basic.showString("J")
+        if (momentaneAufgabe < AnzahlAufgaben) {
+            if (momentaneAufgabe == AnzahlAufgaben - 1) {
+                momentaneAufgabe = 0
+                basic.showString("A")
+            } else if (momentaneAufgabe == 0) {
+                momentaneAufgabe = 1
+                basic.showString("B")
+            } else if (momentaneAufgabe == 1) {
+                momentaneAufgabe += 1
+                basic.showString("C")
+            } else if (momentaneAufgabe == 2) {
+                momentaneAufgabe += 1
+                basic.showString("D")
+            } else if (momentaneAufgabe == 3) {
+                momentaneAufgabe += 1
+                basic.showString("E")
+            } else if (momentaneAufgabe == 4) {
+                momentaneAufgabe += 1
+                basic.showString("F")
+            } else if (momentaneAufgabe == 5) {
+                momentaneAufgabe += 1
+                basic.showString("G")
+            } else if (momentaneAufgabe == 6) {
+                momentaneAufgabe += 1
+                basic.showString("H")
+            } else if (momentaneAufgabe == 7) {
+                momentaneAufgabe += 1
+                basic.showString("I")
+            } else if (momentaneAufgabe == 8) {
+                momentaneAufgabe += 1
+                basic.showString("J")
+            } else {
+            	
+            }
         } else {
-            momentaneAufgabe = 0
+            momentaneAufgabe = AnzahlAufgaben
         }
     }
 })
 function solveH () {
-	
+    gotsolution = true
 }
 function solveI () {
-	
+    gotsolution = true
 }
 function solveD () {
     gotsolution = true
 }
 function solveG () {
-	
+    gotsolution = true
 }
 function hacked () {
     ZahleingabeCounter = 0
@@ -93,8 +97,6 @@ function hacked () {
 }
 // ruft den überprüfungsprozess allgemein auf
 function solve (aufgabennummer: number) {
-    // solvingnow wird verwendet um Tastenfunktionen zu blockieren. Wenn solvingnow aktiv ist, kann die Aufgabe nicht gewechselt werden
-    solvingnow = true
     gotsolution = false
     if (aufgabennummer == 0) {
         solveA()
@@ -127,7 +129,6 @@ function solve (aufgabennummer: number) {
         solveJ()
     }
     solvingnow = false
-    AnzeigeSpielstand()
 }
 function solveF () {
     gotsolution = true
@@ -135,13 +136,18 @@ function solveF () {
 input.onButtonPressed(Button.B, function () {
     if (solvingnow == false) {
         music.playTone(659, music.beat(BeatFraction.Sixteenth))
+        solvingnow = true
         checksolution(momentaneAufgabe)
+    } else {
+    	
     }
 })
 function solveA () {
     if (solvingnow == true) {
         ZahleingabeCounter = 0
-        while (!(input.buttonIsPressed(Button.B))) {
+        basic.showNumber(ZahleingabeCounter)
+        led.plot(4, 4)
+        while (!(input.logoIsPressed())) {
             if (input.buttonIsPressed(Button.A)) {
                 ZahleingabeCounter += 1
                 music.playTone(988, music.beat(BeatFraction.Sixteenth))
@@ -156,6 +162,9 @@ function solveA () {
 function AnzeigeSpielstand () {
     AnzeigeSpielstandAktiv = true
     basic.clearScreen()
+    for (let Index = 0; Index <= 4; Index++) {
+        led.plot(2, Index)
+    }
     if (list[0] == true) {
         music.playTone(262, music.beat(BeatFraction.Eighth))
         for (let index = 0; index < 4; index++) {
@@ -266,7 +275,6 @@ function AnzeigeSpielstand () {
             basic.pause(100)
         }
     }
-    soundExpression.spring.playUntilDone()
     solvingnow = false
     AnzeigeSpielstandAktiv = false
     hacked()
@@ -315,12 +323,12 @@ let momentaneAufgabe = 0
 let solvingnow = false
 let list: boolean[] = []
 let AnzahlAufgaben = 0
-AnzahlAufgaben = 4
+AnzahlAufgaben = 10
 basic.showIcon(IconNames.Angry)
-for (let momentaneAufgabe = 0; momentaneAufgabe <= AnzahlAufgaben; momentaneAufgabe++) {
+for (let momentaneAufgabe = 0; momentaneAufgabe <= AnzahlAufgaben - 1; momentaneAufgabe++) {
     list.push(false)
 }
 solvingnow = false
 let gewonnen = false
-momentaneAufgabe = AnzahlAufgaben + 1
+momentaneAufgabe = AnzahlAufgaben - 1
 AnzeigeSpielstandAktiv = false
