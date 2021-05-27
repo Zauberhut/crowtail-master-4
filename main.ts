@@ -1,5 +1,44 @@
 function solveC () {
-    gotsolution = true
+    basic.clearScreen()
+    basic.pause(100)
+    led.plot(3, 2)
+    led.plot(3, 3)
+    led.plot(3, 4)
+    pins.digitalWritePin(DigitalPin.P12, 0)
+    pins.digitalWritePin(DigitalPin.P16, 0)
+    led.plot(4, 3)
+    led.plot(4, 4)
+    music.playTone(392, music.beat(BeatFraction.Sixteenth))
+    if (pins.digitalReadPin(DigitalPin.P8) == 0) {
+        basic.showNumber(pins.digitalReadPin(DigitalPin.P8))
+        basic.pause(1000)
+        pins.digitalWritePin(DigitalPin.P12, 0)
+        pins.digitalWritePin(DigitalPin.P16, 1)
+        led.plot(4, 3)
+        led.unplot(4, 4)
+        music.playTone(349, music.beat(BeatFraction.Sixteenth))
+        basic.pause(1000)
+        if (pins.digitalReadPin(DigitalPin.P8) == 0) {
+            pins.digitalWritePin(DigitalPin.P12, 1)
+            pins.digitalWritePin(DigitalPin.P16, 0)
+            led.unplot(4, 3)
+            led.plot(4, 4)
+            music.playTone(330, music.beat(BeatFraction.Sixteenth))
+            basic.pause(1000)
+            if (pins.digitalReadPin(DigitalPin.P8) == 0) {
+                pins.digitalWritePin(DigitalPin.P12, 1)
+                pins.digitalWritePin(DigitalPin.P16, 1)
+                led.plot(4, 3)
+                led.plot(4, 4)
+                music.playTone(392, music.beat(BeatFraction.Sixteenth))
+                basic.pause(1000)
+                if (pins.digitalReadPin(DigitalPin.P8) == 1) {
+                    gotsolution = true
+                    basic.showNumber(pins.digitalReadPin(DigitalPin.P8))
+                }
+            }
+        }
+    }
 }
 // Checkt, ob solveX "gotsolution" auf wahr setzt
 // Setzt den entsprechenden Listenwert auf wahr
@@ -14,11 +53,10 @@ function checksolution (Aufgabe: number) {
         basic.pause(1000)
         basic.clearScreen()
     } else {
-        for (let index = 0; index < 3; index++) {
+        for (let index = 0; index < 2; index++) {
             basic.showIcon(IconNames.No)
-            basic.pause(20)
-            basic.clearScreen()
             music.playTone(523, music.beat(BeatFraction.Sixteenth))
+            basic.clearScreen()
         }
     }
     AnzeigeSpielstand()
@@ -131,7 +169,24 @@ function solve (aufgabennummer: number) {
     solvingnow = false
 }
 function solveF () {
-    gotsolution = true
+    pins.digitalWritePin(DigitalPin.P0, 0)
+    pins.digitalWritePin(DigitalPin.P1, 0)
+    pins.digitalWritePin(DigitalPin.P2, 0)
+    // Distanzsensor:
+    // Wenn der Distanzsensor oben links angeschlossen ist und die Distanz weniger als 1 cm misst.
+    ZahleingabeCounter = sonar.ping(
+    DigitalPin.P13,
+    DigitalPin.P15,
+    PingUnit.Centimeters
+    )
+    if (ZahleingabeCounter > 11) {
+        pins.digitalWritePin(DigitalPin.P0, 1)
+    } else if (ZahleingabeCounter < 4) {
+        pins.digitalWritePin(DigitalPin.P2, 1)
+    } else {
+        pins.digitalWritePin(DigitalPin.P1, 1)
+        gotsolution = true
+    }
 }
 input.onButtonPressed(Button.B, function () {
     if (solvingnow == false) {
@@ -147,8 +202,8 @@ function solveA () {
         ZahleingabeCounter = 0
         basic.showNumber(ZahleingabeCounter)
         led.plot(4, 4)
-        while (!(input.logoIsPressed())) {
-            if (input.buttonIsPressed(Button.A)) {
+        while (!(input.buttonIsPressed(Button.A))) {
+            if (input.isGesture(Gesture.Shake)) {
                 ZahleingabeCounter += 1
                 music.playTone(988, music.beat(BeatFraction.Sixteenth))
                 basic.showNumber(ZahleingabeCounter)
@@ -162,7 +217,9 @@ function solveA () {
 function AnzeigeSpielstand () {
     AnzeigeSpielstandAktiv = true
     basic.clearScreen()
-    for (let Index = 0; Index <= 4; Index++) {
+    // Mittellinie passt sich der Anzahl Aufgaben an.
+    // 
+    for (let Index = 0; Index <= AnzahlAufgaben / 2 - 1; Index++) {
         led.plot(2, Index)
     }
     if (list[0] == true) {
@@ -280,7 +337,7 @@ function AnzeigeSpielstand () {
     hacked()
 }
 function solveB () {
-    gotsolution = true
+	
 }
 function SOS () {
     basic.clearScreen()
@@ -323,7 +380,7 @@ let momentaneAufgabe = 0
 let solvingnow = false
 let list: boolean[] = []
 let AnzahlAufgaben = 0
-AnzahlAufgaben = 10
+AnzahlAufgaben = 6
 basic.showIcon(IconNames.Angry)
 for (let momentaneAufgabe = 0; momentaneAufgabe <= AnzahlAufgaben - 1; momentaneAufgabe++) {
     list.push(false)
