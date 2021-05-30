@@ -61,6 +61,7 @@ function checksolution (Aufgabe: number) {
             basic.showIcon(IconNames.No)
             music.playTone(523, music.beat(BeatFraction.Sixteenth))
             basic.clearScreen()
+            basic.pause(100)
         }
     }
     AnzeigeSpielstand()
@@ -69,7 +70,9 @@ function solveJ () {
     gotsolution = true
 }
 function solveE () {
-    gotsolution = true
+    if (pins.digitalReadPin(DigitalPin.P0) == 1) {
+        gotsolution = true
+    }
 }
 input.onButtonPressed(Button.A, function () {
     if (solvingnow == false) {
@@ -192,6 +195,20 @@ function solveF () {
         gotsolution = true
     }
 }
+radio.onReceivedString(function (receivedString) {
+    if (receivedString == "Darkweb") {
+        gotmessage = true
+        basic.showLeds(`
+            # . # . #
+            # . # . .
+            # . . # #
+            . # . . .
+            . . # # #
+            `)
+        basic.pause(10000)
+        gotmessage = false
+    }
+})
 input.onButtonPressed(Button.B, function () {
     if (solvingnow == false) {
         music.playTone(659, music.beat(BeatFraction.Sixteenth))
@@ -341,7 +358,9 @@ function AnzeigeSpielstand () {
     hacked()
 }
 function solveB () {
-	
+    if (gotmessage == true) {
+        gotsolution = true
+    }
 }
 function SOS () {
     basic.clearScreen()
@@ -379,6 +398,7 @@ function HaenschenKlein () {
 }
 let ZahleingabeCounter = 0
 let gotsolution = false
+let gotmessage = false
 let AnzeigeSpielstandAktiv = false
 let momentaneAufgabe = 0
 let solvingnow = false
@@ -393,3 +413,5 @@ solvingnow = false
 let gewonnen = false
 momentaneAufgabe = AnzahlAufgaben - 1
 AnzeigeSpielstandAktiv = false
+radio.setGroup(123)
+gotmessage = false
