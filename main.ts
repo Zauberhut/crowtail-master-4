@@ -10,13 +10,10 @@ function solveC () {
         led.plot(4, 3)
         led.plot(4, 4)
         music.playTone(392, music.beat(BeatFraction.Sixteenth))
-        basic.showNumber(pins.digitalReadPin(DigitalPin.P8))
+        basic.pause(1000)
         if (pins.digitalReadPin(DigitalPin.P8) == 0) {
-            ZahleingabeCounter = 1
-            basic.pause(1000)
             pins.digitalWritePin(DigitalPin.P12, 0)
             pins.digitalWritePin(DigitalPin.P16, 1)
-            led.plot(4, 3)
             led.unplot(4, 4)
             music.playTone(349, music.beat(BeatFraction.Sixteenth))
             basic.pause(1000)
@@ -26,27 +23,26 @@ function solveC () {
                 led.unplot(4, 3)
                 led.plot(4, 4)
                 music.playTone(330, music.beat(BeatFraction.Sixteenth))
-                basic.showNumber(pins.digitalReadPin(DigitalPin.P1))
                 basic.pause(1000)
-                if (pins.digitalReadPin(DigitalPin.P1) == 0) {
+                if (pins.digitalReadPin(DigitalPin.P8) == 0) {
                     pins.digitalWritePin(DigitalPin.P12, 1)
                     pins.digitalWritePin(DigitalPin.P16, 1)
                     led.plot(4, 3)
                     led.plot(4, 4)
                     music.playTone(392, music.beat(BeatFraction.Sixteenth))
-                    basic.showNumber(pins.digitalReadPin(DigitalPin.P1))
-                    basic.pause(1000)
                 }
-                if (ZahleingabeCounter == 1) {
-                    gotsolution = true
+                if (pins.digitalReadPin(DigitalPin.P8) == 1) {
+                    led.plot(4, 2)
                     basic.pause(1000)
-                    basic.showNumber(pins.digitalReadPin(DigitalPin.P8))
+                    gotsolution = true
+                } else {
+                    basic.pause(1000)
                 }
             }
         }
-        ZahleingabeCounter = 0
-        basic.showNumber(ZahleingabeCounter)
     }
+    pins.digitalWritePin(DigitalPin.P12, 0)
+    pins.digitalWritePin(DigitalPin.P16, 0)
 }
 // Checkt, ob solveX "gotsolution" auf wahr setzt
 // Setzt den entsprechenden Listenwert auf wahr
@@ -381,8 +377,8 @@ function HaenschenKlein () {
     music.playMelody("C E G G C C C - ", 120)
     music.setBuiltInSpeakerEnabled(false)
 }
-let gotsolution = false
 let ZahleingabeCounter = 0
+let gotsolution = false
 let AnzeigeSpielstandAktiv = false
 let momentaneAufgabe = 0
 let solvingnow = false
