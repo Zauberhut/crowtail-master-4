@@ -135,8 +135,7 @@ function hacked () {
         }
     }
     if (ZahleingabeCounter == AnzahlAufgaben) {
-        radio.setGroup(1)
-        radio.sendNumber(0)
+        radio.sendNumber(12345)
         basic.showIcon(IconNames.Heart)
     }
 }
