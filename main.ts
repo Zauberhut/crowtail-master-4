@@ -1,3 +1,6 @@
+// Logikgatter AND anschliessen :
+// P12 + P16 = Eingänge
+// P8  = Ausgang
 function solveC () {
     if (solvingnow == true) {
         basic.clearScreen()
@@ -69,6 +72,7 @@ function checksolution (Aufgabe: number) {
 function solveJ () {
     gotsolution = true
 }
+// Alarmanlage mit Magnetschalter
 function solveE () {
     if (pins.digitalReadPin(DigitalPin.P0) == 1) {
         gotsolution = true
@@ -121,6 +125,7 @@ function solveH () {
 function solveI () {
     gotsolution = true
 }
+// Servo Aufgabe?
 function solveD () {
     gotsolution = true
 }
@@ -136,7 +141,9 @@ function hacked () {
     }
     if (ZahleingabeCounter == AnzahlAufgaben) {
         radio.sendNumber(12345)
-        basic.showIcon(IconNames.Heart)
+        for (let index = 0; index < 20; index++) {
+            basic.showString("HACKED! code= XYZ")
+        }
     }
 }
 // ruft den überprüfungsprozess allgemein auf
@@ -174,6 +181,7 @@ function solve (aufgabennummer: number) {
     }
     solvingnow = false
 }
+// Distanzsensor an P13 P15
 function solveF () {
     pins.digitalWritePin(DigitalPin.P0, 0)
     pins.digitalWritePin(DigitalPin.P1, 0)
@@ -217,6 +225,7 @@ input.onButtonPressed(Button.B, function () {
     	
     }
 })
+// Microbit acht mal schütteln (schrittzähler)
 function solveA () {
     if (solvingnow == true) {
         ZahleingabeCounter = 0
@@ -229,7 +238,7 @@ function solveA () {
                 basic.showNumber(ZahleingabeCounter)
             }
         }
-        if (ZahleingabeCounter == 3) {
+        if (ZahleingabeCounter == 8) {
             gotsolution = true
         }
     }
@@ -356,6 +365,7 @@ function AnzeigeSpielstand () {
     AnzeigeSpielstandAktiv = false
     hacked()
 }
+// Funk auf Kanl 123 empfangen "Darkweb"
 function solveB () {
     if (gotmessage == true) {
         gotsolution = true
@@ -403,7 +413,7 @@ let momentaneAufgabe = 0
 let solvingnow = false
 let list: boolean[] = []
 let AnzahlAufgaben = 0
-AnzahlAufgaben = 6
+AnzahlAufgaben = 0
 basic.showIcon(IconNames.Angry)
 for (let momentaneAufgabe = 0; momentaneAufgabe <= AnzahlAufgaben - 1; momentaneAufgabe++) {
     list.push(false)
