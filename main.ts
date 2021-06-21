@@ -47,6 +47,12 @@ function solveC () {
     pins.digitalWritePin(DigitalPin.P12, 0)
     pins.digitalWritePin(DigitalPin.P16, 0)
 }
+radio.onReceivedNumber(function (receivedNumber) {
+    if (receivedNumber == 12345) {
+        basic.showString("hacked! code= XYZ")
+        music.playMelody("G C5 G C5 G C5 G C5 ", 120)
+    }
+})
 // Checkt, ob solveX "gotsolution" auf wahr setzt
 // Setzt den entsprechenden Listenwert auf wahr
 // zeigt an ob Aufgabe richtig gelöst oder falsch
@@ -111,8 +117,6 @@ input.onButtonPressed(Button.A, function () {
             } else if (momentaneAufgabe == 8) {
                 momentaneAufgabe += 1
                 basic.showString("J")
-            } else {
-            	
             }
         } else {
             momentaneAufgabe = AnzahlAufgaben
@@ -125,9 +129,11 @@ function solveH () {
 function solveI () {
     gotsolution = true
 }
-// Servo Aufgabe?
+// Lautstärkesensor an P0
 function solveD () {
-    gotsolution = true
+    if (pins.analogReadPin(AnalogPin.P0) > 30) {
+        gotsolution = true
+    }
 }
 function solveG () {
     gotsolution = true
@@ -221,8 +227,6 @@ input.onButtonPressed(Button.B, function () {
         music.playTone(659, music.beat(BeatFraction.Sixteenth))
         solvingnow = true
         checksolution(momentaneAufgabe)
-    } else {
-    	
     }
 })
 // Microbit acht mal schütteln (schrittzähler)
@@ -373,7 +377,6 @@ function solveB () {
 }
 function SOS () {
     basic.clearScreen()
-    music.setBuiltInSpeakerEnabled(true)
     for (let index = 0; index < 3; index++) {
         led.plot(2, 2)
         music.playTone(262, music.beat(BeatFraction.Half))
@@ -394,7 +397,6 @@ function SOS () {
         led.unplot(2, 2)
         music.rest(music.beat(BeatFraction.Half))
     }
-    music.setBuiltInSpeakerEnabled(false)
 }
 function HaenschenKlein () {
     music.setBuiltInSpeakerEnabled(true)
@@ -413,7 +415,7 @@ let momentaneAufgabe = 0
 let solvingnow = false
 let list: boolean[] = []
 let AnzahlAufgaben = 0
-AnzahlAufgaben = 0
+AnzahlAufgaben = 6
 basic.showIcon(IconNames.Angry)
 for (let momentaneAufgabe = 0; momentaneAufgabe <= AnzahlAufgaben - 1; momentaneAufgabe++) {
     list.push(false)
