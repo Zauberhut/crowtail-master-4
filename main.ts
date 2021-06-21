@@ -1,4 +1,4 @@
-// Logikgatter AND anschliessen :
+// Logikgatter AND anschliessen:
 // P12 + P16 = Eingänge
 // P8  = Ausgang
 function solveC () {
@@ -47,10 +47,13 @@ function solveC () {
     pins.digitalWritePin(DigitalPin.P12, 0)
     pins.digitalWritePin(DigitalPin.P16, 0)
 }
+// NOTFALL Lösungsausgabe für den Lehrer micro:bit
 radio.onReceivedNumber(function (receivedNumber) {
     if (receivedNumber == 12345) {
-        basic.showString("hacked! code= XYZ")
-        music.playMelody("G C5 G C5 G C5 G C5 ", 120)
+        for (let index = 0; index < 4; index++) {
+            music.playMelody("G C5 G C5 G - - - ", 120)
+            basic.showString("hacked! code= XYZ")
+        }
     }
 })
 // Checkt, ob solveX "gotsolution" auf wahr setzt
@@ -79,6 +82,7 @@ function solveJ () {
     gotsolution = true
 }
 // Alarmanlage mit Magnetschalter
+// Magnetschalter muss an P0 angeschlossen und aktiviert sein 
 function solveE () {
     if (pins.digitalReadPin(DigitalPin.P0) == 1) {
         gotsolution = true
@@ -129,7 +133,8 @@ function solveH () {
 function solveI () {
     gotsolution = true
 }
-// Lautstärkesensor an P0
+// Lautstärkeanzeiger mit Servo:
+// Lautstärkesensor an P0. Pegel > 30
 function solveD () {
     if (pins.analogReadPin(AnalogPin.P0) > 30) {
         gotsolution = true
@@ -187,7 +192,7 @@ function solve (aufgabennummer: number) {
     }
     solvingnow = false
 }
-// Distanzsensor an P13 P15
+// Distanzmessung mit Ultraschall: Distanzsensor an P13/P15, Gemessener Abstand zwischen 11 und 4 cm
 function solveF () {
     pins.digitalWritePin(DigitalPin.P0, 0)
     pins.digitalWritePin(DigitalPin.P1, 0)
@@ -229,7 +234,8 @@ input.onButtonPressed(Button.B, function () {
         checksolution(momentaneAufgabe)
     }
 })
-// Microbit acht mal schütteln (schrittzähler)
+// Schrittzähler:
+// Microbit acht mal schütteln 
 function solveA () {
     if (solvingnow == true) {
         ZahleingabeCounter = 0
@@ -244,8 +250,11 @@ function solveA () {
         }
         if (ZahleingabeCounter == 8) {
             gotsolution = true
+        } else {
+            solvingnow = false
         }
     }
+    ZahleingabeCounter = 0
 }
 function AnzeigeSpielstand () {
     AnzeigeSpielstandAktiv = true
@@ -369,7 +378,8 @@ function AnzeigeSpielstand () {
     AnzeigeSpielstandAktiv = false
     hacked()
 }
-// Funk auf Kanl 123 empfangen "Darkweb"
+// Micro-Chat:
+// Funksignal empfangen auf Kanal 123: "Darkweb"
 function solveB () {
     if (gotmessage == true) {
         gotsolution = true
