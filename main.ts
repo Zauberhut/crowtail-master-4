@@ -57,9 +57,9 @@ radio.onReceivedNumber(function (receivedNumber) {
     }
 })
 // Checkt, ob solveX "gotsolution" auf wahr setzt
-// Setzt den entsprechenden Listenwert auf wahr
-// zeigt an ob Aufgabe richtig gelöst oder falsch
-// ruft den Spielstand auf
+// - Setzt den entsprechenden Listenwert auf wahr
+// - zeigt an ob Aufgabe richtig gelöst oder falsch
+// - ruft den Spielstand auf
 function checksolution (Aufgabe: number) {
     solve(Aufgabe)
     if (gotsolution == true) {
@@ -136,9 +136,13 @@ function solveI () {
 // Lautstärkeanzeiger mit Servo:
 // Lautstärkesensor an P0. Pegel > 30
 function solveD () {
-    if (pins.analogReadPin(AnalogPin.P0) > 30) {
+    pins.analogWritePin(AnalogPin.P0, 0)
+    basic.pause(100)
+    if (pins.analogReadPin(AnalogPin.P0) > 50) {
         gotsolution = true
     }
+    basic.showNumber(pins.analogReadPin(AnalogPin.P0))
+    solvingnow = false
 }
 function solveG () {
     gotsolution = true
@@ -384,38 +388,6 @@ function solveB () {
     if (gotmessage == true) {
         gotsolution = true
     }
-}
-function SOS () {
-    basic.clearScreen()
-    for (let index = 0; index < 3; index++) {
-        led.plot(2, 2)
-        music.playTone(262, music.beat(BeatFraction.Half))
-        led.unplot(2, 2)
-        music.rest(music.beat(BeatFraction.Half))
-    }
-    music.rest(music.beat(BeatFraction.Double))
-    for (let index = 0; index < 3; index++) {
-        led.plot(2, 2)
-        music.playTone(262, music.beat(BeatFraction.Double))
-        led.unplot(2, 2)
-        music.rest(music.beat(BeatFraction.Half))
-    }
-    music.rest(music.beat(BeatFraction.Double))
-    for (let index = 0; index < 3; index++) {
-        led.plot(2, 2)
-        music.playTone(262, music.beat(BeatFraction.Half))
-        led.unplot(2, 2)
-        music.rest(music.beat(BeatFraction.Half))
-    }
-}
-function HaenschenKlein () {
-    music.setBuiltInSpeakerEnabled(true)
-    music.setVolume(255)
-    music.playMelody("G E E - F D D - ", 120)
-    music.playMelody("C D E F G G G - ", 120)
-    music.playMelody("G E E - F D D - ", 120)
-    music.playMelody("C E G G C C C - ", 120)
-    music.setBuiltInSpeakerEnabled(false)
 }
 let ZahleingabeCounter = 0
 let gotsolution = false
